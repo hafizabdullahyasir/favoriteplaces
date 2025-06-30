@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useState } from "react";
 import { TextInput } from "react-native";   
 import Colors from "../../constants/colors";
+import ImagePicker from "./ImagePicker";
 
 export default function PlaceForm() {
 const [enteredTitle, setEnteredTitle] = useState('')
@@ -20,6 +21,7 @@ function changeTitleHandler(enteredText){
                 <TextInput style={styles.input} onChangeText={changeTitleHandler} value={enteredTitle}/>
               
             </View>
+            <ImagePicker />
         </ScrollView>
         )
 }
