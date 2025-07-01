@@ -5,15 +5,15 @@ import { getCurrentPositionAsync } from "expo-location";
 import { useForegroundPermissions, PermissionStatus } from "expo-location";
 import { useState } from "react";
 import { getMapPreview } from "../../util/location";
-
-
+import { useNavigation } from "@react-navigation/native";
+import Map from "../../screens/Map";
 
 export default function LocationPicker() {
 
     const [pickedLocation, setPickedLocation] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [imageError, setImageError] = useState(false);
-
+    const navigation = useNavigation(); 
     const [locationPermissionInformation, requestPermission] = useForegroundPermissions();
 
 
@@ -70,8 +70,9 @@ export default function LocationPicker() {
         setIsLoading(false);
     }
 
-    function pickOnMapHandler() { }
-
+    function pickOnMapHandler() { 
+        navigation.navigate('Map')
+    }
     let locationPreview = <Text>No location picked yet.</Text>;
 
     if (isLoading) {
@@ -135,7 +136,8 @@ export default function LocationPicker() {
             </View>
         </View>
     );
-}
+} 
+
 
 const styles = StyleSheet.create({
     mapPreview: {
