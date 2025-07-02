@@ -3,9 +3,9 @@ import { Alert, View, StyleSheet, Image, Text, ActivityIndicator } from "react-n
 import Colors from "../../constants/colors"; // ✅ Correct import
 import { getCurrentPositionAsync } from "expo-location";
 import { useForegroundPermissions, PermissionStatus } from "expo-location";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getMapPreview } from "../../util/location";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 
 
 export default function LocationPicker() {
@@ -15,7 +15,20 @@ export default function LocationPicker() {
     const [imageError, setImageError] = useState(false);
     const navigation = useNavigation(); 
     const [locationPermissionInformation, requestPermission] = useForegroundPermissions();
+    const route = useRoute();
+    // const mapPickedLocation = route.params && {lat: route.params.pickedLat, lng: route.params.pickedLng};       
+    const isFocused = useIsFocused();
 
+    useEffect(() => {
+        if (isFocused && route.params && route.params.pickedLat && route.params.pickedLng) {
+            const mapPickedLocation = {
+                lat: route.params.pickedLat, 
+                lng: route.params.pickedLng
+            };
+            setPickedLocation(mapPickedLocation);
+        }
+    }, [route, isFocused])
+        
 
     async function verifyPermissions() {
         if (locationPermissionInformation?.status === PermissionStatus.UNDETERMINED) {
@@ -71,7 +84,10 @@ export default function LocationPicker() {
     }
 
     function pickOnMapHandler() { 
-        navigation.navigate('Map')
+        navigation.navigate('Map', {
+            initialLocation: pickedLocation,
+            readonly: false
+        })
     }
     let locationPreview = <Text>No location picked yet.</Text>;
 
