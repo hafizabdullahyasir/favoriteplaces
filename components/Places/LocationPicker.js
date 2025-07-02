@@ -4,7 +4,7 @@ import Colors from "../../constants/colors"; // ✅ Correct import
 import { getCurrentPositionAsync } from "expo-location";
 import { useForegroundPermissions, PermissionStatus } from "expo-location";
 import { useState, useEffect } from "react";
-import { getMapPreview } from "../../util/location";
+import { getAddress, getMapPreview } from "../../util/location";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 
 
@@ -31,10 +31,15 @@ export default function LocationPicker({onPickLocation}) {
         
 
     useEffect(()=>{
-        if (pickedLocation){
-            onPickLocation(pickedLocation);
+        async function handleLocation(){
+            if (pickedLocation){
+                const address = await getAddress(pickedLocation.lat, pickedLocation.lng);
+                onPickLocation({...pickedLocation, address: address});
+            }
         }
-    },[pickedLocation, onPickLocation])
+        handleLocation();
+        
+    },[pickedLocation, onPickLocation, getAddress])
 
 
     
