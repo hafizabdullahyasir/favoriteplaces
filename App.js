@@ -24,7 +24,7 @@ export default function App() {
           <Stack.Screen name="AllPlaces" component={AllPlaces} options={({navigation}) => ({
             title: 'Your Favourite Places',
             headerRight: ({tintColor}) => (
-              <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate('AddPlaces')} />
+              <IconButton icon="add-outline" size={24} color={tintColor || '#fff'} onPress={() => navigation.navigate('AddPlaces')} />
             )
            })} />
           <Stack.Screen name="AddPlaces" component={AddPlaces} options={{ title: 'Add Place' }} />

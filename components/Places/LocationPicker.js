@@ -6,7 +6,7 @@ import { useForegroundPermissions, PermissionStatus } from "expo-location";
 import { useState } from "react";
 import { getMapPreview } from "../../util/location";
 import { useNavigation } from "@react-navigation/native";
-import Map from "../../screens/Map";
+
 
 export default function LocationPicker() {
 

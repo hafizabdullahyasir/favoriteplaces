@@ -8,7 +8,11 @@ export default function IconButton({ icon, size, color, onPress }) {
       style={({ pressed }) => [styles.button, pressed && styles.pressed]}
       android_ripple={{ color: '#ccc' }}
     >
-      <Ionicons name={icon} size={size} color={color} />
+      <Ionicons 
+        name={icon} 
+        size={size} 
+        color={color || '#000'} // Fallback color for Android
+      />
     </Pressable>
   );
 }
