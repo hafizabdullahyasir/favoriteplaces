@@ -8,7 +8,7 @@ import { getMapPreview } from "../../util/location";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 
 
-export default function LocationPicker() {
+export default function LocationPicker({onPickLocation}) {
 
     const [pickedLocation, setPickedLocation] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +30,14 @@ export default function LocationPicker() {
     }, [route, isFocused])
         
 
+    useEffect(()=>{
+        if (pickedLocation){
+            onPickLocation(pickedLocation);
+        }
+    },[pickedLocation, onPickLocation])
+
+
+    
     async function verifyPermissions() {
         if (locationPermissionInformation?.status === PermissionStatus.UNDETERMINED) {
             const permissionResponse = await requestPermission();
@@ -69,7 +77,7 @@ export default function LocationPicker() {
            
             setPickedLocation(locationData);
             setImageError(false); // Reset image error state
-            
+               
             const mapUrl = getMapPreview(locationData.lat, locationData.lng);
           
             
