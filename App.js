@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-  import { StyleSheet } from 'react-native';
+  import { Platform, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AllPlaces from './screens/AllPlaces';
@@ -24,8 +24,13 @@ export default function App() {
           <Stack.Screen name="AllPlaces" component={AllPlaces} options={({navigation}) => ({
             title: 'Your Favourite Places',
             headerRight: ({tintColor}) => (
-              <IconButton icon="add" size={24} color={tintColor || '#fff'} onPress={() => navigation.navigate('AddPlaces')} />
-            )
+              <IconButton 
+                  icon={Platform.OS === 'android' ? 'add' : 'add-outline'} 
+                  size={24} 
+                  color={tintColor || '#fff'} 
+                  onPress={() => navigation.navigate('AddPlaces')} 
+              />
+          )
            })} />
               <Stack.Screen name="AddPlaces" component={AddPlaces} options={{ title: 'Add Place' }} />
           <Stack.Screen name="Map" component={Map} options={{ title: 'Map' }} />
