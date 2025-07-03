@@ -2,17 +2,20 @@ import { View, Text, Image, Pressable, StyleSheet } from "react-native";
 import Colors from "../../constants/colors";
 
 export default function PlaceItem({place, onSelect}) {
-return (
-  <Pressable onPress={onSelect} style={({pressed})=>[styles.item, pressed && styles.pressed]}>
-        <Image source={{uri: place.imageUri}} style={styles.image}/>
-        <View style={styles.info}>
-        
-            <Text style={styles.title}>{place.title}</Text>
-            <Text style={styles.address}>{place.address}</Text>
-        </View>
-  </Pressable>
+  // Safety check to prevent errors if place is undefined
+  if (!place) {
+    return null;
+  }
 
-)
+  return (
+    <Pressable onPress={() => onSelect(place.id)} style={({pressed})=>[styles.item, pressed && styles.pressed]}>
+          <Image source={{uri: place.imageUri}} style={styles.image}/>
+          <View style={styles.info}>
+              <Text style={styles.title}>{place.title}</Text>
+              <Text style={styles.address}>{place.address}</Text>
+          </View>
+    </Pressable>
+  )
 
 }
 const styles = StyleSheet.create({

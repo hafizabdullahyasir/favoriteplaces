@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";  
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";  
 import { useCallback, useState } from "react";
 import { TextInput } from "react-native";   
 import Colors from "../../constants/colors";
@@ -35,7 +35,22 @@ const pickLocationHandler = useCallback(location => {
 
 
 function savePlaceHandler(){
-    const placeData =  new Place(enteredTitle, selectedImage, pickedLocation.address, pickedLocation)
+    if (!enteredTitle.trim()) {
+        Alert.alert('Missing Information', 'Please enter a title for your place.');
+        return;
+    }
+    
+    if (!selectedImage) {
+        Alert.alert('Missing Information', 'Please take a photo of your place.');
+        return;
+    }
+    
+    if (!pickedLocation) {
+        Alert.alert('Missing Information', 'Please pick a location for your place.');
+        return;
+    }
+    
+    const placeData = new Place(enteredTitle, selectedImage, pickedLocation.address, pickedLocation);
     onCreatePlace(placeData);
 }
 
