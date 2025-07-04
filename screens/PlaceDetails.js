@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 8,
         textAlign: "center",
+        color: 'white',
     },
 })  
 

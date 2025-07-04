@@ -88,5 +88,18 @@ export async function fetchPlaceById(id) {
     }
 }
 
+export async function clearAllData() {
+    try {
+        const database = await SQLite.openDatabaseAsync('places.db');
+        
+        await database.runAsync('DELETE FROM places');
+        
+        console.log('All data cleared from database');
+    } catch (error) {
+        console.error('Error clearing database:', error);
+        throw error;
+    }
+}
+
 
         

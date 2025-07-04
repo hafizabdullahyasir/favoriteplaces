@@ -15,7 +15,17 @@ export default function ImagePicker({onTakeImage} ) {
     }
 
     if (cameraPermissionInformation?.status === PermissionStatus.DENIED) {
-      Alert.alert("Insufficient Permissions!", "You need to grant camera access.");
+      Alert.alert(
+        "Camera Permission Required", 
+        "This app needs access to camera to take photos. Please enable camera permission in your device settings.",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Open Settings", onPress: () => {
+            // On Android, this will prompt user to open settings
+            Alert.alert("Please enable camera permission in device settings");
+          }}
+        ]
+      );
       return false;
     }
 
@@ -23,20 +33,32 @@ export default function ImagePicker({onTakeImage} ) {
   }
 
   async function takeImageHandler() {
+    console.log('Camera permission status:', cameraPermissionInformation?.status);
+    
     const hasPermission = await verifyPermissions();
     if (!hasPermission) {
+      console.log('Camera permission denied');
       return;
     }
 
-    const image = await launchCameraAsync({
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.5,
-    });
+    try {
+      console.log('Launching camera...');
+      const image = await launchCameraAsync({
+        allowsEditing: true,
+        aspect: [16, 9],
+        quality: 0.5,
+      });
 
-    if (!image.canceled) {
-      setPickedImage(image.assets[0].uri);
-      onTakeImage(image.assets[0].uri);
+      console.log('Camera result:', image);
+
+      if (!image.canceled && image.assets && image.assets.length > 0) {
+        setPickedImage(image.assets[0].uri);
+        onTakeImage(image.assets[0].uri);
+        console.log('Image captured successfully');
+      }
+    } catch (error) {
+      console.error('Camera error:', error);
+      Alert.alert('Camera Error', 'Failed to take photo. Please try again.');
     }
   }
 

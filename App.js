@@ -1,4 +1,3 @@
-
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,7 +7,7 @@ import AddPlaces from './screens/AddPlaces';
 import Colors from './constants/colors';
 import IconButton from './components/UI/IconButton';
 import Map from './screens/Map';
-import { init } from './util/database';
+import { init, clearAllData } from './util/database';
 import { useEffect, useState } from 'react';
 import AppLoading from 'expo-app-loading';
 import PlaceDetails from './screens/PlaceDetails';
@@ -23,6 +22,7 @@ useEffect(()=>{
   async function initializeDatabase() {
     try {
       await init();
+      await clearAllData();
       setDbInitialized(true);
     } catch (err) {
       console.log(err);
